@@ -454,7 +454,7 @@
       <input type="password" id="apiKeyInput" placeholder="Paste your API key here" autocomplete="off" />
       <button onclick="startSession()">Start Conversation with Marina</button>
       <div class="note">
-        <strong>Privacy:</strong> Your API key is stored in sessionStorage only and cleared when you close this tab. It is sent directly to Anthropic's API — never to any third-party server. &nbsp;|&nbsp; Get a key at <strong>console.anthropic.com</strong>
+        <strong>Privacy:</strong> Your key is saved in your browser (localStorage) so you only need to enter it once. It is never sent to any server other than Anthropic's API. &nbsp;|&nbsp; Get a key at <strong>console.anthropic.com</strong>
       </div>
     </div>
   </div>
@@ -638,7 +638,7 @@ function startSession() {
     return;
   }
   apiKey = key;
-  sessionStorage.setItem('tp_ak', key);
+  localStorage.setItem('tp_ak', key);  // persists across sessions
   document.getElementById('keyModal').style.display = 'none';
   greetDonor();
 }
@@ -647,9 +647,9 @@ document.getElementById('apiKeyInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') startSession();
 });
 
-// Check session storage on load
+// Check localStorage on load — key persists across sessions
 window.addEventListener('load', () => {
-  const saved = sessionStorage.getItem('tp_ak');
+  const saved = localStorage.getItem('tp_ak');
   if (saved) {
     apiKey = saved;
     document.getElementById('keyModal').style.display = 'none';
@@ -768,7 +768,7 @@ async function callMarina(userMessage) {
       if (response.status === 401) {
         errMsg = 'Authentication failed — your API key was not accepted. Please check you copied it in full from console.anthropic.com/settings/keys and try again.';
         // Clear invalid key so modal re-appears
-        sessionStorage.removeItem('tp_ak');
+        localStorage.removeItem('tp_ak');
         apiKey = '';
         setTimeout(() => { document.getElementById('keyModal').style.display = 'flex'; }, 2000);
       }
