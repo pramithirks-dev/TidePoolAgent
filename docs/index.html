@@ -737,15 +737,20 @@ async function callMarina(userMessage) {
 
   showTyping();
 
+  // Detect environment: use proxy server if available, else call Anthropic directly
+  const PROXY_BASE = window.location.hostname === 'pramithirks-dev.github.io'
+    ? 'https://tidepoolagent.onrender.com'    // Render deployment
+    : window.location.origin;                  // Same-origin (local dev / Render)
+  const CHAT_ENDPOINT = `${PROXY_BASE}/api/chat`;
+
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const headers = { 'Content-Type': 'application/json' };
+    // Pass API key as Authorization header to proxy (never stored server-side)
+    if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
+
+    const response = await fetch(CHAT_ENDPOINT, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-allow-browser': 'true'
-      },
+      headers,
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
         max_tokens: 1200,
