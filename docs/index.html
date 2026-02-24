@@ -32,7 +32,6 @@
     padding: 16px;
   }
 
-  /* ── App shell ───────────────────────────────────── */
   .app {
     width: 100%;
     max-width: 720px;
@@ -47,7 +46,6 @@
     position: relative;
   }
 
-  /* ── Header ──────────────────────────────────────── */
   .header {
     background: linear-gradient(135deg, var(--ocean) 0%, #0d5236 100%);
     padding: 16px 20px;
@@ -112,7 +110,6 @@
     border: 1px solid rgba(78,203,141,.3);
   }
 
-  /* ── Messages area ───────────────────────────────── */
   .messages {
     flex: 1;
     overflow-y: auto;
@@ -125,7 +122,6 @@
   .messages::-webkit-scrollbar-track { background: transparent; }
   .messages::-webkit-scrollbar-thumb { background: var(--foam-dark); border-radius: 10px; }
 
-  /* ── Message bubbles ─────────────────────────────── */
   .msg { display: flex; gap: 8px; margin-bottom: 16px; align-items: flex-end; }
   .msg.user { flex-direction: row-reverse; }
 
@@ -144,12 +140,11 @@
   .msg.user .msg-avatar { background: #dce8e2; font-size: 12px; color: var(--muted); font-weight: 600; }
 
   .bubble {
-    max-width: 75%;
+    max-width: 78%;
     padding: 11px 15px;
     font-size: 13.5px;
-    line-height: 1.55;
+    line-height: 1.6;
     color: var(--text);
-    position: relative;
   }
 
   .msg.assistant .bubble {
@@ -164,49 +159,6 @@
     border-radius: var(--bubble-r);
   }
 
-  /* Impact report styling inside bubble */
-  .bubble .report-box {
-    background: var(--foam);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 12px;
-    margin: 8px 0 4px;
-    font-size: 12.5px;
-  }
-
-  .bubble .report-box .report-title {
-    font-weight: 700;
-    color: var(--ocean);
-    font-size: 13px;
-    margin-bottom: 6px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .bubble .report-box .row {
-    display: flex;
-    gap: 6px;
-    margin: 3px 0;
-    align-items: flex-start;
-  }
-
-  .bubble .report-box .row .icon { flex-shrink: 0; width: 16px; }
-
-  .bubble pre {
-    background: #f0f7f3;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 12px;
-    font-size: 12px;
-    line-height: 1.5;
-    white-space: pre-wrap;
-    word-break: break-word;
-    font-family: 'Courier New', monospace;
-    margin: 6px 0;
-    color: var(--text);
-  }
-
-  /* ── Typing indicator ────────────────────────────── */
   .typing {
     display: flex;
     gap: 8px;
@@ -239,7 +191,6 @@
     30% { transform: translateY(-6px); }
   }
 
-  /* ── Input area ──────────────────────────────────── */
   .input-area {
     background: var(--white);
     border-top: 1px solid var(--border);
@@ -302,10 +253,8 @@
   .send-btn:hover { background: var(--ocean-mid); }
   .send-btn:active { transform: scale(.93); }
   .send-btn:disabled { background: #b0c4bb; cursor: not-allowed; }
-
   .send-btn svg { width: 18px; height: 18px; fill: white; }
 
-  /* ── Footer disclaimer ───────────────────────────── */
   .disclaimer {
     text-align: center;
     font-size: 10px;
@@ -314,93 +263,6 @@
     padding: 0 8px;
   }
 
-  /* ── API key modal ────────────────────────────────── */
-  .modal-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,.6);
-    backdrop-filter: blur(4px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    border-radius: 20px;
-    padding: 20px;
-  }
-
-  .modal {
-    background: var(--white);
-    border-radius: 16px;
-    padding: 28px;
-    max-width: 380px;
-    width: 100%;
-    box-shadow: 0 20px 60px rgba(0,0,0,.3);
-  }
-
-  .modal h2 {
-    color: var(--ocean);
-    font-size: 18px;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .modal p {
-    color: var(--muted);
-    font-size: 13px;
-    line-height: 1.5;
-    margin-bottom: 16px;
-  }
-
-  .modal input {
-    width: 100%;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 11px 14px;
-    font-size: 14px;
-    font-family: 'Courier New', monospace;
-    color: var(--text);
-    outline: none;
-    margin-bottom: 12px;
-    letter-spacing: .5px;
-    transition: border-color .2s;
-  }
-
-  .modal input:focus {
-    border-color: var(--ocean-light);
-    box-shadow: 0 0 0 3px rgba(45,158,110,.12);
-  }
-
-  .modal button {
-    width: 100%;
-    background: var(--ocean);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background .2s;
-  }
-
-  .modal button:hover { background: var(--ocean-mid); }
-
-  .modal .note {
-    background: var(--foam);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 11.5px;
-    color: var(--muted);
-    margin-top: 10px;
-    line-height: 1.4;
-  }
-
-  .modal .note strong { color: var(--ocean); }
-
-  /* ── Quick prompts ───────────────────────────────── */
   .quick-prompts {
     display: flex;
     flex-wrap: wrap;
@@ -427,7 +289,6 @@
     border-color: var(--ocean);
   }
 
-  /* Markdown-style formatting */
   .bubble strong { font-weight: 700; }
   .bubble em { font-style: italic; color: var(--muted); }
 
@@ -446,22 +307,6 @@
 
 <div class="app" id="app">
 
-  <!-- API Key Modal -->
-  <div class="modal-overlay" id="keyModal">
-    <div class="modal">
-      <h2>🌊 Welcome to Marina</h2>
-      <p>Marina is TidePool's AI-powered Donor Impact Intelligence Agent. To start, enter your <strong>free</strong> Groq API key — no payment or credit card needed, works everywhere including EU.</p>
-      <p style="font-size:12px;color:#2d7a52;margin:-6px 0 10px;font-weight:600">
-        Get your free key in 30 seconds: <strong>console.groq.com</strong> → Sign in with Google → API Keys → Create API Key → Copy &amp; paste below
-      </p>
-      <input type="password" id="apiKeyInput" placeholder="Paste your Groq API key here (gsk_...)" autocomplete="off" />
-      <button onclick="startSession()">Start Conversation with Marina</button>
-      <div class="note">
-        <strong>Free &amp; no card needed:</strong> Groq's free tier gives 14,400 requests/day. Your key is saved in your browser so you only enter it once. It goes directly to Groq's API — never stored anywhere else.
-      </div>
-    </div>
-  </div>
-
   <!-- Header -->
   <div class="header">
     <div class="avatar">🌊</div>
@@ -472,7 +317,7 @@
         TidePool Donor Impact Intelligence Agent
       </div>
     </div>
-    <div class="header-badge">llama-3.3-70b · Groq</div>
+    <div class="header-badge">No Key Needed · Live</div>
   </div>
 
   <!-- Messages -->
@@ -495,7 +340,7 @@
         <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
       </button>
     </div>
-    <div class="disclaimer">Marina is an AI. Responses are informational. &nbsp;|&nbsp; <a href="https://tidepool.org/privacy" style="color:var(--ocean-light)">Privacy</a> &nbsp;|&nbsp; EX2 Assignment Demo — TidePool × Claude Sonnet 4.6</div>
+    <div class="disclaimer">Marina is an AI-powered demo agent. Responses are informational. &nbsp;|&nbsp; <a href="https://tidepool.org/privacy" style="color:var(--ocean-light)">Privacy</a> &nbsp;|&nbsp; EX2 Assignment Demo — TidePool Donor Impact Intelligence</div>
   </div>
 
 </div>
@@ -504,15 +349,14 @@
 // ─── TidePool Impact Database ──────────────────────────────────────────────
 const DONOR = {
   first_name: "Sarah",
-  last_name: "M.",
-  donation_amount_eur: 12,
+  donation_eur: 12,
   campaign: "Azores Deep Reef Restoration 2024",
-  donation_date: "3 February 2026",
-  donation_id: "TP-2026-00847",
-  is_recurring: false,
-  data_held: ["First name and initial","Email address","Donation amount and date","Campaign selected","Payment method type only (not card number)","Country of residence"],
-  legal_basis: "Legitimate interest (donation processing and impact reporting)",
-  impact: "Your €12 contributed to protecting approximately 0.21 m² of Azores reef — about the size of an A4 notebook page. At €57.55/m², this is your proportional share of the 847 m² restored to date across 312 donors."
+  date: "3 February 2026",
+  ref: "TP-2026-00847",
+  impact_m2: 0.21,
+  coral_fragments: 0.49,
+  data_held: ["First name and initial","Email address","Donation amount and date","Campaign selected","Payment method type (not card number)","Country of residence"],
+  legal_basis: "Legitimate interest (donation processing and impact reporting)"
 };
 
 const CAMPAIGN = {
@@ -522,160 +366,353 @@ const CAMPAIGN = {
   total_raised_eur: 48750,
   total_donors: 312,
   cost_per_m2: 57.55,
-  outcomes: {
-    reef_area_m2: 847,
-    coral_fragments: 2340,
-    fish_species: 23,
-    diver_hours: 1840,
-    co2_kg: 1250,
-    protected_area_m2: 12000
-  },
+  reef_m2: 847,
+  coral: 2340,
+  fish_species: 23,
+  diver_hours: 1840,
+  co2_kg: 1250,
+  protected_m2: 12000,
   next_milestone: "Phase 3 coral transplantation — April 2026",
   last_survey: "January 2026",
   report_url: "https://tidepool.org/impact/azores-reef-2024",
-  financials: { conservation: 78, research: 14, admin: 8 }
+  fin_conservation: 78,
+  fin_research: 14,
+  fin_admin: 8
 };
 
-// ─── System Prompt ─────────────────────────────────────────────────────────
-const SYSTEM_PROMPT = `You are Marina, TidePool's Donor Impact Intelligence Agent — a specialist AI built to restore and strengthen donor trust through radical transparency about conservation outcomes, ethical AI disclosure, and personalised impact reporting.
+// ─── Response Library ───────────────────────────────────────────────────────
+const RESPONSES = {
 
-IDENTITY & PERSONALITY:
-- Name: Marina | Role: Donor Impact Intelligence Agent | Organisation: TidePool
-- Warm, knowledgeable, and genuinely passionate about marine conservation
-- Honest, specific, and evidence-driven — never use vague language like "your donation helped the ocean"
-- Always acknowledge your AI nature proactively and warmly
-- Speak with authority about conservation outcomes but humility about uncertainty
+  greeting: `Hi, I'm Marina — TidePool's AI-powered Donor Impact Agent. I'm here to show you exactly what your donation achieved and answer any questions about TidePool's work.
 
-DOMAIN EXPERTISE:
-- Marine conservation project metrics (reef area in m², coral fragments, species monitoring, CO₂ sequestration)
-- Donation impact quantification and attribution (cost-per-m², donor contribution share)
-- GDPR / data privacy rights (Articles 13, 15, 17, 22)
-- Ethical AI disclosure in fundraising contexts
-- Donor engagement and recurring giving psychology
+I should be upfront: **I'm an AI**, and I use your donor record to personalise this conversation. You can opt out of AI-personalised communications at any time at tidepool.org/privacy.
 
-COMMUNICATION STYLE:
-- Lead with verified facts and specific numbers from the donor context provided
-- Use tangible real-world analogies (e.g. "0.21 m² — about the size of an A4 notebook page")
-- Warm but professional — use the donor's first name
-- Keep responses focused and concise — use structured formatting where helpful
+Sarah, your €12 donation to the **Azores Deep Reef Restoration** is already making a measurable difference. Would you like to see your full impact report, find out what data I hold, or ask me anything else about TidePool's work?`,
 
-WHAT MARINA WILL ALWAYS DO:
-✓ Open every NEW conversation (first message only) with the transparency declaration
-✓ Provide specific, numerically precise impact reports
-✓ Attribute each donation to a concrete, proportional conservation outcome
-✓ Proactively explain data usage and offer opt-out when privacy is mentioned
-✓ Enumerate GDPR rights (Articles 13, 15, 17, 22) when data queries arise
-✓ Connect repeat giving to specific future outcomes, not generic "more impact"
-✓ Disclose being AI-generated and subject to human oversight
+  impact: `🌊 **IMPACT REPORT | Azores Deep Reef Restoration 2024**
+Donation: **€12** | Date: 3 Feb 2026 | Ref: TP-2026-00847
+───────────────────────────────────────
 
-WHAT MARINA WILL NEVER DO:
-✗ Fabricate conservation statistics or donation figures
-✗ Impersonate a human staff member or conceal being an AI
-✗ Apply pressure, urgency, or false scarcity around giving
-✗ Collect or request personal data beyond what is in the donor record
-✗ Dismiss donor concerns about data privacy or AI ethics
-✗ Produce impact estimates without labelling them as estimates
+📍 **Project:** Azores Deep Reef Restoration 2024
+📌 Location: Azores Archipelago, Portugal (38.7°N, 27.1°W)
 
-TRANSPARENCY DECLARATION (use ONLY at the very start of the first response):
-"Hi, I'm Marina — TidePool's AI-powered Donor Impact Agent. I'm here to show you exactly what your donation achieved and answer any questions about TidePool's work. I should be upfront: I'm an AI, and I use your donor record to personalise this conversation. You can opt out of AI-personalised communications at any time at tidepool.org/privacy."
+📊 **Your Contribution (Sarah M.):**
+Your €12 — at a cost of €57.55 per m² — contributed to protecting approximately **0.21 m²** of Azores reef. That's roughly the size of an A4 notebook page, which is your proportional share of the **847 m² restored to date** across 312 donors.
 
-OUTPUT FORMAT FOR IMPACT REPORTS (use emoji headers and clear structure):
-🌊 IMPACT REPORT | [Campaign]
-📍 Project + location
-📊 Your Contribution: specific m² attribution
-🌿 Outcomes: bulleted list of key metrics
-📅 Status and next milestone
-📄 Report URL
+🌿 **Campaign Outcomes to Date** (January 2026 survey):
+- 🪸 Reef area restored: **847 m²**
+- 🌱 Coral fragments planted: **2,340**
+- 🐟 Fish species monitored: **23**
+- 🤿 Volunteer diver hours: **1,840**
+- 💨 CO₂ sequestered: **1,250 kg**
+- 🌊 Marine area protected: **12,000 m²**
 
-For data/privacy queries use:
-🔒 DATA TRANSPARENCY REPORT
-📂 Data held (list)
-⚖️ Legal basis
-📋 GDPR rights (enumerate Articles)
-🤖 AI usage disclosure
-📩 Contact for rights requests
+💰 **How Your Donation Was Spent:**
+- 78% → Direct conservation work
+- 14% → Research and monitoring
+- 8% → Operations and admin
 
-For recurring giving: show specific comparison table (one-off vs monthly in m² and other units). Always explicitly state it is optional with no urgency.
+📅 **Status:** Active — Phase 2 of 3
+📌 **Next Milestone:** Phase 3 coral transplantation — April 2026
+📄 **Full Report:** tidepool.org/impact/azores-reef-2024
 
-Use markdown formatting (bold, bullet points) in responses where it aids clarity.`;
+Every fraction of every donation adds up, Sarah. The 847 m² restored exists because 312 people like you chose to act. Thank you.`,
 
-function getDonorContext() {
-  return `\n\n[DONOR CONTEXT — use for personalisation]
-Donor: ${DONOR.first_name} ${DONOR.last_name}
-Donation: €${DONOR.donation_amount_eur} | Campaign: ${DONOR.campaign}
-Date: ${DONOR.donation_date} | Ref: ${DONOR.donation_id}
-Recurring: ${DONOR.is_recurring ? 'Yes' : 'No'}
+  data: `🔒 **DATA TRANSPARENCY REPORT — Sarah M.**
+───────────────────────────────────────
 
-Your Impact Attribution: ${DONOR.impact}
+📂 **Data TidePool Holds About You:**
+- First name and initial (Sarah M.)
+- Email address
+- Donation amount and date (€12, 3 February 2026)
+- Campaign selected (Azores Reef 2024)
+- Payment method type only — **not** your card number
+- Country of residence
 
-Data Held: ${DONOR.data_held.join(', ')}
-Legal Basis: ${DONOR.legal_basis}
+⚖️ **Legal Basis for Processing:**
+Legitimate interest — donation processing and impact reporting (GDPR Article 6(1)(f))
 
-Campaign Outcomes (${CAMPAIGN.last_survey} survey):
-- Reef area restored: ${CAMPAIGN.outcomes.reef_area_m2} m²
-- Coral fragments planted: ${CAMPAIGN.outcomes.coral_fragments}
-- Fish species monitored: ${CAMPAIGN.outcomes.fish_species}
-- Volunteer diver hours: ${CAMPAIGN.outcomes.diver_hours}
-- CO₂ sequestered: ${CAMPAIGN.outcomes.co2_kg} kg
-- Marine area protected: ${CAMPAIGN.outcomes.protected_area_m2} m²
+📋 **Your GDPR Rights:**
+- **Article 13** — Right to be informed: you have the right to know what data is held and why (this report fulfils that)
+- **Article 15** — Right of access: you can request a full copy of all data held about you
+- **Article 17** — Right to erasure: you can ask TidePool to delete your personal data at any time
+- **Article 22** — Right to explanation: you have the right to understand how any automated decisions (including AI personalisation) are made
 
-Cost/m²: €${CAMPAIGN.cost_per_m2} | Total donors: ${CAMPAIGN.total_donors} | Total raised: €${CAMPAIGN.total_raised_eur}
-Next Milestone: ${CAMPAIGN.next_milestone}
-Financial split: ${CAMPAIGN.financials.conservation}% conservation / ${CAMPAIGN.financials.research}% research / ${CAMPAIGN.financials.admin}% admin
-Impact Report: ${CAMPAIGN.report_url}`;
+🤖 **AI Usage Disclosure:**
+I am an AI agent. I use your donor record to personalise this conversation. No new data has been collected during this interaction. AI responses are generated automatically and are subject to human oversight.
+
+📩 **To Exercise Your Rights:**
+Email: privacy@tidepool.org | Response within 30 days under GDPR Article 12
+Or visit: tidepool.org/privacy
+
+Would you like written confirmation of any of these rights, Sarah?`,
+
+  monthly: `Great question, Sarah. Here's what **€5/month** would achieve compared to a one-off gift:
+
+📊 **One-off €12 vs. Monthly €5 — Impact Comparison**
+
+|   | One-off €12 | €5/month (12 months) |
+|---|---|---|
+| Annual contribution | €12 | **€60** |
+| Reef area protected | 0.21 m² | **1.04 m²** |
+| CO₂ offset equivalent | ~2.2 kg | **~10.8 kg** |
+| Coral fragments supported | ~0.5 | **~2.5** |
+
+🌱 At €57.55/m², **€5/month protects roughly 1 m² of reef per year** — enough to sustain a complete coral micro-colony and the fish habitat it supports.
+
+Monthly donors also unlock **Phase 3 of the Azores project** — the coral transplantation phase starting April 2026 — which requires sustained funding to proceed.
+
+📌 **This is entirely optional** — there is no pressure or obligation. A monthly gift simply means your conservation impact compounds over time rather than being a one-off contribution.
+
+If you'd like to set up a monthly gift, visit: tidepool.org/give/monthly
+
+Would you like to know more about the Azores project's next phase, Sarah?`,
+
+  financial: `💰 **How TidePool Spends Your Donation — Azores Reef 2024**
+───────────────────────────────────────
+
+Of every €1 donated to the Azores Reef campaign:
+
+- **78p → Direct conservation work** (reef surveys, coral planting, restoration dives)
+- **14p → Research and monitoring** (species surveys, water quality testing, biodiversity reports)
+- **8p → Operations and administration** (processing, communications, reporting)
+
+For your specific €12 donation:
+- **€9.36** funded direct conservation work
+- **€1.68** funded research and monitoring
+- **€0.96** funded operations
+
+TidePool publishes full financial accounts annually. Verified by an independent auditor.
+📄 Full financials: tidepool.org/financials
+
+Is there anything else you'd like to know about how funds are used, Sarah?`,
+
+  campaign: `📍 **Azores Deep Reef Restoration 2024 — Campaign Overview**
+───────────────────────────────────────
+
+**Location:** Azores Archipelago, Portugal (38.7°N, 27.1°W)
+**Status:** Active — Phase 2 of 3
+**Started:** March 2024
+
+**What We're Doing:**
+The Azores reef system experienced significant bleaching damage between 2021–2023. TidePool's programme works with local marine biologists and volunteer divers to restore reef structure through targeted coral transplantation and habitat protection.
+
+**Current Scale (January 2026 survey):**
+- 847 m² of reef restored
+- 2,340 coral fragments planted
+- 23 fish species now monitored in the restored zone
+- 1,840 volunteer diver hours logged
+- 12,000 m² of marine area under active protection
+
+**Funding:**
+- €48,750 raised from 312 donors
+- Cost-per-m² restored: €57.55
+- Phase 3 (coral transplantation) begins April 2026
+
+📄 Full project report: tidepool.org/impact/azores-reef-2024
+
+You're one of 312 people funding this work, Sarah. Every donor's contribution is tracked and attributed to specific outcomes.`,
+
+  optout: `Of course, Sarah — I completely understand. You have every right to opt out of AI-personalised communications.
+
+**To opt out:**
+- Visit: tidepool.org/privacy
+- Email: privacy@tidepool.org with the subject "Opt out of AI communications"
+- Or click "Unsubscribe from personalised updates" in any TidePool email
+
+Under **GDPR Article 17**, you can also request full erasure of your personal data. This will stop all personalised communications immediately.
+
+Your donation and its impact remain unchanged regardless of any opt-out decision — you'll still receive essential donation receipts and tax documents as required by law.
+
+Is there anything else I can help with before you go?`,
+
+  erasure: `Understood, Sarah. Under **GDPR Article 17 (Right to Erasure)**, you have the right to request that TidePool deletes your personal data.
+
+**How to request erasure:**
+📩 Email: privacy@tidepool.org — Subject: "Data Erasure Request — [your email]"
+🌐 Form: tidepool.org/privacy/erasure
+
+**What happens when you request erasure:**
+- All personal data linked to your donor record will be deleted within 30 days (GDPR Article 12 deadline)
+- Anonymised transaction records may be retained for legal/accounting obligations only — no personal identifiers attached
+- You will receive written confirmation of deletion
+
+**Note:** Erasure is irreversible. If you later wish to donate again, you would need to create a new donor record.
+
+Would you like me to explain any of your other GDPR rights, or is there anything else I can help with?`,
+
+  ai_disclosure: `Yes — I'm an AI, and I want to be completely transparent about that.
+
+**What I am:**
+I'm Marina, a rule-based AI agent built by TidePool to help donors understand exactly what their contributions achieved. I'm not a human staff member, and I'll never pretend to be.
+
+**How I work:**
+I use your donor record (Sarah M., €12 to Azores Reef 2024) to personalise responses about your impact, your data, and TidePool's work. I don't learn from this conversation or share your information with any third party.
+
+**AI Transparency (GDPR Article 22):**
+You have the right to know when AI is used in decisions that affect you. I'm AI-generated and all responses are subject to human oversight by TidePool's team.
+
+**If you'd prefer to speak with a human:**
+📩 Email: hello@tidepool.org
+📞 Or request a callback via tidepool.org/contact
+
+Is there anything specific about TidePool's AI practices you'd like to understand better?`,
+
+  human: `Of course — I can connect you with TidePool's human team.
+
+**Contact TidePool directly:**
+📩 Email: hello@tidepool.org (response within 2 business days)
+📞 Request a callback: tidepool.org/contact
+🕐 Office hours: Monday–Friday, 9am–5pm (GMT)
+
+For urgent matters or formal complaints:
+📩 complaints@tidepool.org (response within 5 business days, per GDPR Article 12)
+
+I'll make a note that you requested human follow-up. Is there anything specific you'd like me to summarise for the team, Sarah?`,
+
+  complaint: `I'm sorry to hear you're not satisfied, Sarah — that genuinely matters to us, and I want to make sure this is properly addressed.
+
+**Please don't hesitate to raise this directly with TidePool's team:**
+📩 complaints@tidepool.org
+🕐 Response guaranteed within 5 business days (GDPR Article 12)
+
+Your feedback is taken seriously. TidePool reviews all complaints and uses them to improve donor communications and practices.
+
+If your concern is about how your data has been handled, you also have the right to escalate to your national Data Protection Authority:
+🇮🇪 Ireland: dataprotection.ie
+🇪🇺 EU: edpb.europa.eu
+
+I can also provide a summary of your donor record or data rights report right now if that would help. What would be most useful?`,
+
+  thanks: `You're very welcome, Sarah — it's genuinely great to hear from donors who care about where their money goes.
+
+Your €12 is part of something real. 847 m² of Azores reef has been restored, and Phase 3 of the project starts in April 2026. You're a part of that.
+
+Is there anything else I can help you with — about your impact, your data, or TidePool's work?`,
+
+  goodbye: `Thank you for supporting TidePool's mission, Sarah. Your contribution to the Azores reef restoration is making a real difference — 0.21 m² of living reef that wouldn't exist without you.
+
+If you ever want to check in on your impact, review your data rights, or ask anything else, I'm here.
+
+Take care. 🌊`,
+
+  fallback: `I want to make sure I give you accurate information, Sarah. I can help you with:
+
+- 📊 **Your impact report** — exactly what your €12 achieved
+- 🔒 **Your data and GDPR rights** — what TidePool holds and how to exercise your rights
+- 💰 **Financial breakdown** — how your donation was spent
+- 🌱 **Monthly giving** — what recurring support would achieve
+- 🤿 **The Azores campaign** — project overview and status
+- 🤖 **AI transparency** — how this agent works
+- 👤 **Human contact** — connect with TidePool's team
+
+What would you like to know?`
+
+};
+
+// ─── Intent Matching ────────────────────────────────────────────────────────
+function matchIntent(text) {
+  const t = text.toLowerCase().trim();
+
+  // Greeting
+  if (/^(hi|hello|hey|good morning|good afternoon|good evening|start|begin|hiya|howdy|greetings)/.test(t) && t.length < 40) {
+    return 'greeting';
+  }
+
+  // Impact / donation / where did money go
+  if (/\b(impact|where.{0,15}(money|donation|go)|what.{0,15}(happen|achiev|did)|show.{0,10}report|donation|achieve|reef|m2|m²|how much|what did|contributed|my €|my gift)\b/.test(t)) {
+    return 'impact';
+  }
+
+  // Explicit impact report request
+  if (/\b(impact report|show my|my report|full report|report)\b/.test(t)) {
+    return 'impact';
+  }
+
+  // Monthly / recurring giving
+  if (/\b(month|recurring|regular|€5|5.{0,5}month|per month|monthly|ongoing|sustain|set up a)\b/.test(t)) {
+    return 'monthly';
+  }
+
+  // Financial breakdown
+  if (/\b(how.{0,10}(spent|spend|used|use)|financ|breakdown|percent|%|admin|overhead|operational|accounts|where.{0,10}money)\b/.test(t) && !/where.{0,15}(go|happen|achiev)/.test(t)) {
+    return 'financial';
+  }
+
+  // GDPR erasure / deletion
+  if (/\b(delete|erase|erasure|remove.{0,10}data|forget me|right to be forgotten|article 17|17)\b/.test(t)) {
+    return 'erasure';
+  }
+
+  // Opt out / unsubscribe
+  if (/\b(opt.?out|unsubscribe|stop email|no more|remove me|don.t contact|no contact)\b/.test(t)) {
+    return 'optout';
+  }
+
+  // Data / privacy / GDPR
+  if (/\b(data|privacy|gdpr|personal|what do you know|know about me|hold about|information|article 15|article 13|article 22|right to access|access request|my information)\b/.test(t)) {
+    return 'data';
+  }
+
+  // Campaign / project info
+  if (/\b(campaign|project|azores|reef|kelp|celtic|ocean|marine|conservation|tidepool|what.{0,15}doing|tell me about)\b/.test(t)) {
+    return 'campaign';
+  }
+
+  // AI disclosure
+  if (/\b(are you (an? )?(ai|bot|robot|human|real)|ai|artificial|machine|chatbot|automated|what are you|who are you)\b/.test(t)) {
+    return 'ai_disclosure';
+  }
+
+  // Human / speak to staff
+  if (/\b(speak to|talk to|human|person|staff|team|real person|someone real|callback|call me|contact)\b/.test(t)) {
+    return 'human';
+  }
+
+  // Complaint
+  if (/\b(complain|complaint|unhappy|upset|angry|not happy|disappointed|problem|issue|wrong|bad experience)\b/.test(t)) {
+    return 'complaint';
+  }
+
+  // Thanks
+  if (/^(thank|thanks|thank you|cheers|great|brilliant|amazing|wonderful|perfect|awesome|helpful|helpful)/.test(t) && t.length < 60) {
+    return 'thanks';
+  }
+
+  // Goodbye
+  if (/^(bye|goodbye|see you|take care|that.s all|done|finished|exit|quit|no more|ciao|farewell)/.test(t) && t.length < 40) {
+    return 'goodbye';
+  }
+
+  return 'fallback';
 }
 
 // ─── State ──────────────────────────────────────────────────────────────────
-let conversationHistory = [];
-let apiKey = '';
 let isLoading = false;
+let firstMessage = true;
 const messagesEl = document.getElementById('messages');
 const inputEl = document.getElementById('userInput');
 const sendBtn = document.getElementById('sendBtn');
 
-// ─── API Key setup ──────────────────────────────────────────────────────────
-function startSession() {
-  const key = document.getElementById('apiKeyInput').value.trim();
-  if (key.length < 20) {
-    alert('Please paste your full Anthropic API key.');
-    return;
-  }
-  apiKey = key;
-  localStorage.setItem('tp_ak', key);  // persists across sessions
-  document.getElementById('keyModal').style.display = 'none';
-  greetDonor();
-}
-
-document.getElementById('apiKeyInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') startSession();
-});
-
-// Check localStorage on load — key persists across sessions
-window.addEventListener('load', () => {
-  const saved = localStorage.getItem('tp_ak');
-  if (saved) {
-    apiKey = saved;
-    document.getElementById('keyModal').style.display = 'none';
-    greetDonor();
-  }
-});
-
-// ─── Send first greeting to get Marina's opening message ────────────────────
-async function greetDonor() {
-  await callMarina('Hello');
-}
-
-// ─── Message rendering ───────────────────────────────────────────────────────
+// ─── Rendering ───────────────────────────────────────────────────────────────
 function now() {
   return new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
 }
 
 function renderText(text) {
-  // Convert **bold**, bullet points, and newlines to HTML
+  // Handle markdown table
+  text = text.replace(/\|(.+)\|/g, match => {
+    if (match.includes('---')) return '';
+    const cells = match.split('|').filter(c => c.trim());
+    const isHeader = false;
+    return '<tr>' + cells.map(c => `<td style="padding:4px 10px;border:1px solid #c4e8d4;font-size:12px">${c.trim()}</td>`).join('') + '</tr>';
+  });
+  text = text.replace(/(<tr>.*?<\/tr>\n?)+/gs, m => `<table style="border-collapse:collapse;margin:8px 0;width:100%">${m}</table>`);
+
   return text
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/^[-•]\s+(.+)$/gm, '<li style="margin:2px 0 2px 16px">$1</li>')
-    .replace(/(<li.*<\/li>\n?)+/g, m => `<ul style="padding:4px 0">${m}</ul>`)
+    .replace(/(<li.*?<\/li>\n?)+/gs, m => `<ul style="padding:4px 0">${m}</ul>`)
     .replace(/\n\n/g, '<br><br>')
     .replace(/\n/g, '<br>');
 }
@@ -723,85 +760,44 @@ function removeTyping() {
   if (el) el.remove();
 }
 
-// ─── Anthropic API call ──────────────────────────────────────────────────────
+// ─── Marina response logic ──────────────────────────────────────────────────
+function getMarinaResponse(userText) {
+  if (firstMessage) {
+    firstMessage = false;
+    return RESPONSES.greeting;
+  }
+  const intent = matchIntent(userText);
+  return RESPONSES[intent] || RESPONSES.fallback;
+}
+
+// ─── Send message ────────────────────────────────────────────────────────────
 async function callMarina(userMessage) {
   if (isLoading) return;
   isLoading = true;
   sendBtn.disabled = true;
 
-  // Add to history
-  conversationHistory.push({ role: 'user', content: userMessage });
-
-  if (userMessage !== 'Hello') {
+  if (userMessage !== '__greeting__') {
     appendMessage('user', userMessage);
-    // Hide quick prompts after first real message
     document.getElementById('quickPrompts').style.display = 'none';
   }
 
   showTyping();
 
-  // Google Gemini API — supports browser CORS natively, no proxy needed
-  // Groq API — free tier, CORS enabled, works in EU, OpenAI-compatible format
-  const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
-  const GROQ_MODEL = 'llama-3.3-70b-versatile';
+  // Simulate realistic typing delay (600–1400ms based on response length)
+  const intent = firstMessage ? 'greeting' : matchIntent(userMessage);
+  const responseText = getMarinaResponse(userMessage);
+  const delay = Math.min(600 + responseText.length * 1.2, 2200);
 
-  const groqMessages = [
-    { role: 'system', content: SYSTEM_PROMPT + getDonorContext() },
-    ...conversationHistory
-  ];
+  await new Promise(r => setTimeout(r, delay));
 
-  try {
-    const response = await fetch(GROQ_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        model: GROQ_MODEL,
-        messages: groqMessages,
-        max_tokens: 1200,
-        temperature: 0.7
-      })
-    });
-
-    if (!response.ok) {
-      let errMsg = `API error (HTTP ${response.status})`;
-      try {
-        const errBody = await response.json();
-        errMsg = errBody.error?.message || errMsg;
-      } catch (_) {}
-      if (response.status === 400 || response.status === 403) {
-        localStorage.removeItem('tp_ak');
-        apiKey = '';
-        setTimeout(() => { document.getElementById('keyModal').style.display = 'flex'; }, 2000);
-      }
-      throw new Error(errMsg);
-    }
-
-    const data = await response.json();
-    const reply = data.choices?.[0]?.message?.content || 'No response received.';
-
-    conversationHistory.push({ role: 'assistant', content: reply });
-    removeTyping();
-    appendMessage('assistant', reply);
-
-  } catch (err) {
-    removeTyping();
-    const isCors = err.message === 'Failed to fetch' || err.message.includes('NetworkError');
-    const display = isCors
-      ? '**Network error.** Try opening the page in Chrome or Edge.'
-      : `**Error:** ${err.message}`;
-    appendMessage('assistant', display);
-    conversationHistory.pop();
-  }
+  removeTyping();
+  appendMessage('assistant', responseText);
 
   isLoading = false;
   sendBtn.disabled = false;
   inputEl.focus();
 }
 
-// ─── Send message ────────────────────────────────────────────────────────────
 async function sendMessage() {
   const text = inputEl.value.trim();
   if (!text || isLoading) return;
@@ -827,6 +823,11 @@ function autoResize(el) {
   el.style.height = 'auto';
   el.style.height = Math.min(el.scrollHeight, 100) + 'px';
 }
+
+// ─── Auto-start with Marina's greeting ──────────────────────────────────────
+window.addEventListener('load', () => {
+  callMarina('__greeting__');
+});
 </script>
 </body>
 </html>

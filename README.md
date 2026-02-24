@@ -8,7 +8,7 @@
 |---|---|
 | **Name** | Marina |
 | **Type** | Customer-facing conversational AI chatbot |
-| **Model** | `claude-sonnet-4-6` (Anthropic) |
+| **Model** | Rule-based engine (no API key required) |
 | **Analytical Lens** | Donor Trust & Transparency |
 | **Primary Challenge** | Challenge 1: Invisible Impact (EX1_AUDIT) |
 | **Secondary** | Challenge 2: Undisclosed AI/Data Practices |
@@ -20,48 +20,42 @@
 3. **Ethical AI Disclosure** — Opens every conversation by declaring she is an AI, explaining how she personalises responses, and offering opt-out
 4. **Recurring Giving Guidance** — Frames monthly giving around specific additional conservation outcomes — never with pressure or urgency
 
+## Live Demo
+
+**No API key required. Open directly in any browser:**
+
+> **https://pramithirks-dev.github.io/TidePoolAgent/**
+
+The chatbot runs entirely in the browser using a rule-based intent engine. No server, no API key, no setup needed.
+
 ## Project Structure
 
 ```
 TidePoolAgent/
-├── marina.js           # Main agent (interactive + live demo modes)
-├── demo_offline.js     # System-prompt-faithful offline demonstration
-├── .env.example        # Environment variable template
+├── docs/
+│   └── index.html      # Self-contained browser chatbot (no API key needed)
+├── marina.js           # Node.js agent (requires Anthropic API key)
+├── demo_offline.js     # Offline CLI demo (no API key)
+├── server.js           # Express proxy server (optional)
 ├── package.json        # Node.js dependencies
 └── README.md           # This file
 ```
 
-## Setup
+## Running the CLI Agent (optional — requires API key)
 
-### Prerequisites
-- Node.js v18+
-- Anthropic API key (get one at console.anthropic.com)
-
-### Installation
-
-```bash
-git clone https://github.com/pramithirks-dev/TidePoolAgent.git
-cd TidePoolAgent
-npm install
-cp .env.example .env
-# Edit .env and add your ANTHROPIC_API_KEY
-```
-
-### Running the Agent
-
-**Interactive mode** (live conversation):
+**Interactive mode:**
 ```bash
 export ANTHROPIC_API_KEY=your_key_here
 node marina.js --interactive
 ```
 
-**Live demo mode** (scripted scenario, saves transcript):
+**Demo mode (saves transcript):**
 ```bash
 export ANTHROPIC_API_KEY=your_key_here
 node marina.js --demo
 ```
 
-**Offline demo** (no API key required — system-prompt-faithful scripted responses):
+**Offline demo (no key needed):**
 ```bash
 node demo_offline.js
 ```
