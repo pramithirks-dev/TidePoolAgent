@@ -472,7 +472,7 @@
         TidePool Donor Impact Intelligence Agent
       </div>
     </div>
-    <div class="header-badge">gemini-1.5-flash</div>
+    <div class="header-badge">gemini-1.5-flash / gemini-pro</div>
   </div>
 
   <!-- Messages -->
@@ -741,25 +741,43 @@ async function callMarina(userMessage) {
   showTyping();
 
   // Google Gemini API — supports browser CORS natively, no proxy needed
-  const GEMINI_MODEL = 'gemini-1.5-flash';
-  const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
+  // Try models in order — gemini-1.5-flash-latest first, fall back to gemini-pro
+  const GEMINI_MODELS = ['gemini-1.5-flash-latest', 'gemini-pro'];
+  const systemText = SYSTEM_PROMPT + getDonorContext();
 
-  // Build Gemini message format (roles: user / model)
-  const geminiContents = conversationHistory.map(m => ({
-    role: m.role === 'assistant' ? 'model' : 'user',
-    parts: [{ text: m.content }]
-  }));
+  // gemini-pro doesn't support system_instruction — prepend to first user message instead
+  function buildContents(model) {
+    const contents = conversationHistory.map(m => ({
+      role: m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: m.content }]
+    }));
+    if (model === 'gemini-pro' && contents.length > 0 && contents[0].role === 'user') {
+      contents[0].parts[0].text = systemText + '\n\n---\n\n' + contents[0].parts[0].text;
+    }
+    return contents;
+  }
 
-  try {
-    const response = await fetch(GEMINI_URL, {
+  let response, usedModel;
+  for (const model of GEMINI_MODELS) {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+    const body = model === 'gemini-pro'
+      ? { contents: buildContents(model), generationConfig: { maxOutputTokens: 1200, temperature: 0.7 } }
+      : { system_instruction: { parts: [{ text: systemText }] }, contents: buildContents(model), generationConfig: { maxOutputTokens: 1200, temperature: 0.7 } };
+
+    response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system_instruction: { parts: [{ text: SYSTEM_PROMPT + getDonorContext() }] },
-        contents: geminiContents,
-        generationConfig: { maxOutputTokens: 1200, temperature: 0.7 }
-      })
+      body: JSON.stringify(body)
     });
+
+    // If model not found, try next one
+    if (response.status === 404) continue;
+    usedModel = model;
+    break;
+  }
+
+  try {
+    if (!response) throw new Error('No available Gemini model found for your region.');
 
     if (!response.ok) {
       let errMsg = `API error (HTTP ${response.status})`;
