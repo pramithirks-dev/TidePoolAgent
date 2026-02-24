@@ -450,11 +450,14 @@
   <div class="modal-overlay" id="keyModal">
     <div class="modal">
       <h2>🌊 Welcome to Marina</h2>
-      <p>Marina is TidePool's AI-powered Donor Impact Intelligence Agent. To start a conversation, enter your Anthropic API key below — it stays in your browser session only and is never stored.</p>
-      <input type="password" id="apiKeyInput" placeholder="Paste your API key here" autocomplete="off" />
+      <p>Marina is TidePool's AI-powered Donor Impact Intelligence Agent. To start, enter your <strong>free</strong> Google Gemini API key — no payment or credit card needed.</p>
+      <p style="font-size:12px;color:#2d7a52;margin:-6px 0 10px;font-weight:600">
+        Get your free key in 30 seconds: <strong>aistudio.google.com</strong> → Sign in with Google → Get API Key → Create API Key → Copy &amp; paste below
+      </p>
+      <input type="password" id="apiKeyInput" placeholder="Paste your Google Gemini API key here" autocomplete="off" />
       <button onclick="startSession()">Start Conversation with Marina</button>
       <div class="note">
-        <strong>Privacy:</strong> Your key is saved in your browser (localStorage) so you only need to enter it once. It is never sent to any server other than Anthropic's API. &nbsp;|&nbsp; Get a key at <strong>console.anthropic.com</strong>
+        <strong>Free &amp; no card needed:</strong> Google Gemini API has a generous free tier. Your key is saved in your browser so you only enter it once. It goes directly to Google's API — never stored anywhere else.
       </div>
     </div>
   </div>
@@ -469,7 +472,7 @@
         TidePool Donor Impact Intelligence Agent
       </div>
     </div>
-    <div class="header-badge">claude-sonnet-4-6</div>
+    <div class="header-badge">gemini-2.0-flash</div>
   </div>
 
   <!-- Messages -->
@@ -737,25 +740,24 @@ async function callMarina(userMessage) {
 
   showTyping();
 
-  // Detect environment: use proxy server if available, else call Anthropic directly
-  const PROXY_BASE = window.location.hostname === 'pramithirks-dev.github.io'
-    ? 'https://tidepoolagent.onrender.com'    // Render deployment
-    : window.location.origin;                  // Same-origin (local dev / Render)
-  const CHAT_ENDPOINT = `${PROXY_BASE}/api/chat`;
+  // Google Gemini API — supports browser CORS natively, no proxy needed
+  const GEMINI_MODEL = 'gemini-2.0-flash';
+  const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
+
+  // Build Gemini message format (roles: user / model)
+  const geminiContents = conversationHistory.map(m => ({
+    role: m.role === 'assistant' ? 'model' : 'user',
+    parts: [{ text: m.content }]
+  }));
 
   try {
-    const headers = { 'Content-Type': 'application/json' };
-    // Pass API key as Authorization header to proxy (never stored server-side)
-    if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
-
-    const response = await fetch(CHAT_ENDPOINT, {
+    const response = await fetch(GEMINI_URL, {
       method: 'POST',
-      headers,
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 1200,
-        system: SYSTEM_PROMPT + getDonorContext(),
-        messages: conversationHistory
+        system_instruction: { parts: [{ text: SYSTEM_PROMPT + getDonorContext() }] },
+        contents: geminiContents,
+        generationConfig: { maxOutputTokens: 1200, temperature: 0.7 }
       })
     });
 
@@ -765,9 +767,7 @@ async function callMarina(userMessage) {
         const errBody = await response.json();
         errMsg = errBody.error?.message || errMsg;
       } catch (_) {}
-      if (response.status === 401) {
-        errMsg = 'Authentication failed — your API key was not accepted. Please check you copied it in full from console.anthropic.com/settings/keys and try again.';
-        // Clear invalid key so modal re-appears
+      if (response.status === 400 || response.status === 403) {
         localStorage.removeItem('tp_ak');
         apiKey = '';
         setTimeout(() => { document.getElementById('keyModal').style.display = 'flex'; }, 2000);
@@ -776,7 +776,7 @@ async function callMarina(userMessage) {
     }
 
     const data = await response.json();
-    const reply = data.content[0].text;
+    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response received.';
 
     conversationHistory.push({ role: 'assistant', content: reply });
     removeTyping();
@@ -786,7 +786,7 @@ async function callMarina(userMessage) {
     removeTyping();
     const isCors = err.message === 'Failed to fetch' || err.message.includes('NetworkError');
     const display = isCors
-      ? '**Network error.** Your browser blocked the API request. Try opening the page in Chrome or Edge, or disable any browser extensions that block cross-origin requests.'
+      ? '**Network error.** Try opening the page in Chrome or Edge.'
       : `**Error:** ${err.message}`;
     appendMessage('assistant', display);
     conversationHistory.pop();
