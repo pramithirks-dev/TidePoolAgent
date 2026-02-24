@@ -451,7 +451,7 @@
     <div class="modal">
       <h2>🌊 Welcome to Marina</h2>
       <p>Marina is TidePool's AI-powered Donor Impact Intelligence Agent. To start a conversation, enter your Anthropic API key below — it stays in your browser session only and is never stored.</p>
-      <input type="password" id="apiKeyInput" placeholder="sk-ant-api03-..." autocomplete="off" />
+      <input type="password" id="apiKeyInput" placeholder="Paste your API key here" autocomplete="off" />
       <button onclick="startSession()">Start Conversation with Marina</button>
       <div class="note">
         <strong>Privacy:</strong> Your API key is stored in sessionStorage only and cleared when you close this tab. It is sent directly to Anthropic's API — never to any third-party server. &nbsp;|&nbsp; Get a key at <strong>console.anthropic.com</strong>
@@ -633,8 +633,8 @@ const sendBtn = document.getElementById('sendBtn');
 // ─── API Key setup ──────────────────────────────────────────────────────────
 function startSession() {
   const key = document.getElementById('apiKeyInput').value.trim();
-  if (!key.startsWith('sk-ant-')) {
-    alert('Please enter a valid Anthropic API key (starts with sk-ant-)');
+  if (key.length < 20) {
+    alert('Please paste your full Anthropic API key.');
     return;
   }
   apiKey = key;
@@ -755,8 +755,19 @@ async function callMarina(userMessage) {
     });
 
     if (!response.ok) {
-      const err = await response.json();
-      throw new Error(err.error?.message || `API error ${response.status}`);
+      let errMsg = `API error (HTTP ${response.status})`;
+      try {
+        const errBody = await response.json();
+        errMsg = errBody.error?.message || errMsg;
+      } catch (_) {}
+      if (response.status === 401) {
+        errMsg = 'Authentication failed — your API key was not accepted. Please check you copied it in full from console.anthropic.com/settings/keys and try again.';
+        // Clear invalid key so modal re-appears
+        sessionStorage.removeItem('tp_ak');
+        apiKey = '';
+        setTimeout(() => { document.getElementById('keyModal').style.display = 'flex'; }, 2000);
+      }
+      throw new Error(errMsg);
     }
 
     const data = await response.json();
@@ -768,8 +779,12 @@ async function callMarina(userMessage) {
 
   } catch (err) {
     removeTyping();
-    appendMessage('assistant', `**I'm sorry, I encountered an error.**\n\n${err.message}\n\nPlease check your API key is valid and try again. If the issue persists, contact the TidePool team at support@tidepool.org.`);
-    conversationHistory.pop(); // remove failed user message
+    const isCors = err.message === 'Failed to fetch' || err.message.includes('NetworkError');
+    const display = isCors
+      ? '**Network error.** Your browser blocked the API request. Try opening the page in Chrome or Edge, or disable any browser extensions that block cross-origin requests.'
+      : `**Error:** ${err.message}`;
+    appendMessage('assistant', display);
+    conversationHistory.pop();
   }
 
   isLoading = false;
