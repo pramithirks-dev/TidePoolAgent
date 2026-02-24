@@ -82,7 +82,7 @@ app.get("/health", (req, res) => {
 });
 
 // Serve frontend for all other routes
-app.get("*", (req, res) => {
+app.get("/{*path}", (req, res) => {
   res.sendFile(path.join(__dirname, "docs", "index.html"));
 });
 
