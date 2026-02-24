@@ -450,14 +450,14 @@
   <div class="modal-overlay" id="keyModal">
     <div class="modal">
       <h2>🌊 Welcome to Marina</h2>
-      <p>Marina is TidePool's AI-powered Donor Impact Intelligence Agent. To start, enter your <strong>free</strong> Google Gemini API key — no payment or credit card needed.</p>
+      <p>Marina is TidePool's AI-powered Donor Impact Intelligence Agent. To start, enter your <strong>free</strong> Groq API key — no payment or credit card needed, works everywhere including EU.</p>
       <p style="font-size:12px;color:#2d7a52;margin:-6px 0 10px;font-weight:600">
-        Get your free key in 30 seconds: <strong>aistudio.google.com</strong> → Sign in with Google → Get API Key → Create API Key → Copy &amp; paste below
+        Get your free key in 30 seconds: <strong>console.groq.com</strong> → Sign in with Google → API Keys → Create API Key → Copy &amp; paste below
       </p>
-      <input type="password" id="apiKeyInput" placeholder="Paste your Google Gemini API key here" autocomplete="off" />
+      <input type="password" id="apiKeyInput" placeholder="Paste your Groq API key here (gsk_...)" autocomplete="off" />
       <button onclick="startSession()">Start Conversation with Marina</button>
       <div class="note">
-        <strong>Free &amp; no card needed:</strong> Google Gemini API has a generous free tier. Your key is saved in your browser so you only enter it once. It goes directly to Google's API — never stored anywhere else.
+        <strong>Free &amp; no card needed:</strong> Groq's free tier gives 14,400 requests/day. Your key is saved in your browser so you only enter it once. It goes directly to Groq's API — never stored anywhere else.
       </div>
     </div>
   </div>
@@ -472,7 +472,7 @@
         TidePool Donor Impact Intelligence Agent
       </div>
     </div>
-    <div class="header-badge">gemini-1.5-flash / gemini-pro</div>
+    <div class="header-badge">llama-3.3-70b · Groq</div>
   </div>
 
   <!-- Messages -->
@@ -741,43 +741,29 @@ async function callMarina(userMessage) {
   showTyping();
 
   // Google Gemini API — supports browser CORS natively, no proxy needed
-  // Try models in order — gemini-1.5-flash-latest first, fall back to gemini-pro
-  const GEMINI_MODELS = ['gemini-1.5-flash-latest', 'gemini-pro'];
-  const systemText = SYSTEM_PROMPT + getDonorContext();
+  // Groq API — free tier, CORS enabled, works in EU, OpenAI-compatible format
+  const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+  const GROQ_MODEL = 'llama-3.3-70b-versatile';
 
-  // gemini-pro doesn't support system_instruction — prepend to first user message instead
-  function buildContents(model) {
-    const contents = conversationHistory.map(m => ({
-      role: m.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: m.content }]
-    }));
-    if (model === 'gemini-pro' && contents.length > 0 && contents[0].role === 'user') {
-      contents[0].parts[0].text = systemText + '\n\n---\n\n' + contents[0].parts[0].text;
-    }
-    return contents;
-  }
-
-  let response, usedModel;
-  for (const model of GEMINI_MODELS) {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-    const body = model === 'gemini-pro'
-      ? { contents: buildContents(model), generationConfig: { maxOutputTokens: 1200, temperature: 0.7 } }
-      : { system_instruction: { parts: [{ text: systemText }] }, contents: buildContents(model), generationConfig: { maxOutputTokens: 1200, temperature: 0.7 } };
-
-    response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-
-    // If model not found, try next one
-    if (response.status === 404) continue;
-    usedModel = model;
-    break;
-  }
+  const groqMessages = [
+    { role: 'system', content: SYSTEM_PROMPT + getDonorContext() },
+    ...conversationHistory
+  ];
 
   try {
-    if (!response) throw new Error('No available Gemini model found for your region.');
+    const response = await fetch(GROQ_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: GROQ_MODEL,
+        messages: groqMessages,
+        max_tokens: 1200,
+        temperature: 0.7
+      })
+    });
 
     if (!response.ok) {
       let errMsg = `API error (HTTP ${response.status})`;
@@ -794,7 +780,7 @@ async function callMarina(userMessage) {
     }
 
     const data = await response.json();
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response received.';
+    const reply = data.choices?.[0]?.message?.content || 'No response received.';
 
     conversationHistory.push({ role: 'assistant', content: reply });
     removeTyping();
