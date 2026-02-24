@@ -472,7 +472,7 @@
         TidePool Donor Impact Intelligence Agent
       </div>
     </div>
-    <div class="header-badge">gemini-2.0-flash</div>
+    <div class="header-badge">gemini-1.5-flash</div>
   </div>
 
   <!-- Messages -->
@@ -741,7 +741,7 @@ async function callMarina(userMessage) {
   showTyping();
 
   // Google Gemini API — supports browser CORS natively, no proxy needed
-  const GEMINI_MODEL = 'gemini-2.0-flash';
+  const GEMINI_MODEL = 'gemini-1.5-flash';
   const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
 
   // Build Gemini message format (roles: user / model)
